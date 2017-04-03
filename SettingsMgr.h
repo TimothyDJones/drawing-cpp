@@ -53,6 +53,9 @@ public:
 		redBtn = blueBtn;
 		redBtn.setPosition(sf::Vector2f(50.0, 250.0));
 
+		circleBtn = redBtn;
+		circleBtn.setPointCount(sf::Vector2f(50.0, 500.0));
+
 		// Initialize setting labels
 		sf::Font font;
 		if (!font.loadFromFile("C:\\Windows\\Fonts\\arial.ttf"))
@@ -80,17 +83,94 @@ public:
 	{
 		// finish this function. It should render all of the "buttons" that the 
 		// user can click on to establish current settings
+		win.draw(drawingColorLabel);
+		win.draw(blueBtn);
+		win.draw(greenBtn);
+		win.draw(redBtn);
+
+		win.draw(currentDrawingShape);
+		win.draw(circleBtn);
+		win.draw(squareBtn);
 	}
 
 	void writeToFile(ofstream& file)
 	{
+		string colorName;
 		// finish this code
+		if (sf::Color::Red == currentDrawingColor)
+		{
+			colorName = "Red";
+		} else if (sf::Color::Green == currentDrawingColor)
+		{
+			colorName = "Green";
+		}
+		else
+		{
+			colorName = "Blue";
+		}
+
+		file << "settings," << colorName << "," << currentDrawingShape << endl;
 	}
 
 	void readFromFile(ifstream& file)
 	{
 		// finish this code
+		string line, temp, colorName;
+		while (getline(file, line)) {
+			std::stringstream iss(line);
+			std::getline(iss, temp, ',');
+			if (temp == "settings")
+			{
+				std::getline(iss, colorName, ',');
+				std::getline(iss, this->currentDrawingShape);
 
+				if (colorName == "Green")
+					this->currentDrawingColor = sf::Color::Green;					
+				else if (colorName == "Blue")
+					this->currentDrawingColor = sf::Color::Blue;
+				else
+					this->currentDrawingColor = sf::Color::Red;
+
+				this->setActiveButtons();
+				break;
+			}
+
+		}
+
+	}
+
+	void setActiveButtons()
+	{
+		// Color buttons
+		if (this->currentDrawingColor == sf::Color::Green)
+		{
+			blueBtn.setFillColor(sf::Color::Transparent);
+			greenBtn.setFillColor(sf::Color::Green);
+			redBtn.setFillColor(sf::Color::Transparent);
+		}
+		else if (this->currentDrawingColor == sf::Color::Blue)
+		{
+			blueBtn.setFillColor(sf::Color::Blue);
+			greenBtn.setFillColor(sf::Color::Transparent);
+			redBtn.setFillColor(sf::Color::Transparent);
+		} else
+		{
+			blueBtn.setFillColor(sf::Color::Transparent);
+			greenBtn.setFillColor(sf::Color::Transparent);
+			redBtn.setFillColor(sf::Color::Red);
+		}
+
+		// Shape buttons
+		if (this->currentDrawingShape == "circle")
+		{
+			circleBtn.setFillColor(sf::Color::Black);
+			squareBtn.setFillColor(sf::Color::Transparent);
+		}
+		else
+		{
+			circleBtn.setFillColor(sf::Color::Transparent);
+			squareBtn.setFillColor(sf::Color::Black);
+		}
 	}
 
 };

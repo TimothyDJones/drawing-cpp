@@ -147,6 +147,7 @@
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeMgr.h" />
     <ClInclude Include="split.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

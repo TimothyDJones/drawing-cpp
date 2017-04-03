@@ -44,17 +44,22 @@ private:
 	float radius = 0.0;
 
 public:
+	Circle(float radius)
+	{
+		this->radius = radius;
+	}
+
 	void drawShape(sf::RenderWindow &renderWindow)
 	{
 
 	}
 
-	void setRadius(float rad)
+	void setRadius(const float rad)
 	{
 		this->radius = rad;
 	}
 
-	float getRadius()
+	const float getRadius() const
 	{
 		return this->radius;
 	}

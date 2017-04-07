@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
-using namespace std;
 #include <SFML/Graphics.hpp>
 #include "SettingsMgr.h"
 #include "ShapeMgr.h"
 using namespace sf;
+using namespace std;
 
 // Finish this code. Other than where it has comments telling you to 
 // add code, you shouldn't need to add any logic to main to satisfy
@@ -21,6 +21,7 @@ int main()
 	
 	SettingsMgr settingsMgr;
 	ShapeMgr    shapeMgr;
+
 	// ************ Add code here to make the managers read from shapes.txt (if the file exists)
 
 	while (window.isOpen())
@@ -33,6 +34,9 @@ int main()
 			{
 				window.close();
 				// ****** Add code here to write all data to shapes.txt
+				ofstream outFile;
+				outFile.open("ex.txt");
+				settingsMgr.writeToFile(outFile);
 			}
 			else if (event.type == Event::MouseButtonReleased)
 			{

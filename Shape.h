@@ -10,9 +10,10 @@ class DrawingShape
 private:
 	sf::Color color;
 	sf::Vector2f position = sf::Vector2f(0.0, 0.0);
+	string shapeName;
 
 public:
-	virtual void drawShape(sf::Window) = 0;
+	virtual void drawShape(sf::Window);
 	
 	void setPosition(sf::Vector2f pos)
 	{
@@ -34,8 +35,16 @@ public:
 	{
 		return this->color;
 	}
-	
 
+	void setShapeName(string sName)
+	{
+		this->shapeName = sName;
+	}
+
+	string getShapeName()
+	{
+		return this->shapeName;
+	}
 };
 
 class Circle : public DrawingShape
@@ -47,11 +56,18 @@ public:
 	Circle(float radius)
 	{
 		this->radius = radius;
+		this->setShapeName("circle");
 	}
 
 	void drawShape(sf::RenderWindow &renderWindow)
 	{
+		sf::CircleShape cir;
+		cir.setRadius(this->getRadius());
+		cir.setPosition(this->getPosition());
+		cir.setFillColor(this->getColor());
+		cir.setOutlineColor(this->getColor());
 
+		renderWindow.draw(cir);
 	}
 
 	void setRadius(const float rad)
@@ -71,6 +87,12 @@ private:
 	float sideLength = 0.0;
 
 public:
+	Square(float sideLength)
+	{
+		this->sideLength = sideLength;
+		this->setShapeName("square");
+	}
+
 	void drawShape(sf::RenderWindow &renderWindow)
 	{
 		sf::RectangleShape sq;
@@ -80,6 +102,16 @@ public:
 		sq.setOutlineColor(this->getColor());
 
 		renderWindow.draw(sq);		
+	}
+
+	void setSideLength(float sLength)
+	{
+		this->sideLength = sLength;
+	}
+
+	const float getSideLength() const
+	{
+		return this->sideLength;
 	}
 
 };

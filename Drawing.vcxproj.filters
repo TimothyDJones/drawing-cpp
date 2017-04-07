@@ -24,6 +24,12 @@
     <ClInclude Include="ShapeMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="split.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

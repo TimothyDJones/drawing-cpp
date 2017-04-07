@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Util.h"
+#include <sstream>
 using namespace std;
 using namespace sf;
 
@@ -40,7 +40,7 @@ public:
 		squareBtn.setOutlineColor(sf::Color::Black);
 		squareBtn.setOutlineThickness(2);
 		squareBtn.setPosition(sf::Vector2f(50.0, 450.0));
-
+		
 		blueBtn.setRadius(BUTTON_RADIUS);
 		blueBtn.setFillColor(sf::Color::Transparent);
 		blueBtn.setOutlineColor(sf::Color::Black);
@@ -54,12 +54,12 @@ public:
 		redBtn.setPosition(sf::Vector2f(50.0, 250.0));
 
 		circleBtn = redBtn;
-		circleBtn.setPointCount(sf::Vector2f(50.0, 500.0));
+		circleBtn.setPosition(sf::Vector2f(50.0, 500.0));
 
 		// Initialize setting labels
 		sf::Font font;
 		if (!font.loadFromFile("C:\\Windows\\Fonts\\arial.ttf"))
-			die("Unable to load font file!");
+			cout << "Unable to load font file!" << endl;
 
 		drawingColorLabel.setString(COLOR_LABEL);
 		drawingColorLabel.setFont(font);
@@ -70,25 +70,46 @@ public:
 		drawingShapeLabel.setString(SHAPE_LABEL);
 		drawingShapeLabel.setPosition(sf::Vector2f(50.0, 400.0));
 	}
-	
+
 
 	void processClick(RenderWindow& win)
 	{
-		// finish this function. This function gets called on a mouse "up" event (a click)
-		// It should change the appropriate setting if a user has clicked on one
-		// of the buttons. Otherwise, it does nothing
+		Vector2f mouse = win.mapPixelToCoords(Mouse::getPosition(win));
+		if (blueBtn.getGlobalBounds().contains(mouse))
+		{
+			blueBtn.setFillColor(sf::Color::Blue);
+			currentDrawingColor = sf::Color::Blue;
+		}
+		else if(redBtn.getGlobalBounds().contains(mouse))
+		{
+			redBtn.setFillColor(sf::Color::Red);
+			currentDrawingColor = sf::Color::Red;
+		}
+		else if (greenBtn.getGlobalBounds().contains(mouse))
+		{
+			greenBtn.setFillColor(sf::Color::Green);
+			currentDrawingColor = sf::Color::Green;
+		}
+		else if (squareBtn.getGlobalBounds().contains(mouse))
+		{
+			squareBtn.setFillColor(sf::Color::Magenta);
+			currentDrawingShape = "Square";
+		}
+		else if(circleBtn.getGlobalBounds().contains(mouse))
+		{
+			circleBtn.setFillColor(sf::Color::Magenta);
+			currentDrawingShape = "Circle";
+		}
 	}
 
 	void draw(RenderWindow& win)
 	{
-		// finish this function. It should render all of the "buttons" that the 
-		// user can click on to establish current settings
 		win.draw(drawingColorLabel);
 		win.draw(blueBtn);
 		win.draw(greenBtn);
 		win.draw(redBtn);
 
-		win.draw(currentDrawingShape);
+		win.draw(drawingShapeLabel);
 		win.draw(circleBtn);
 		win.draw(squareBtn);
 	}
@@ -96,11 +117,11 @@ public:
 	void writeToFile(ofstream& file)
 	{
 		string colorName;
-		// finish this code
 		if (sf::Color::Red == currentDrawingColor)
 		{
 			colorName = "Red";
-		} else if (sf::Color::Green == currentDrawingColor)
+		}
+		else if (sf::Color::Green == currentDrawingColor)
 		{
 			colorName = "Green";
 		}
@@ -114,18 +135,18 @@ public:
 
 	void readFromFile(ifstream& file)
 	{
-		// finish this code
 		string line, temp, colorName;
-		while (getline(file, line)) {
-			std::stringstream iss(line);
-			std::getline(iss, temp, ',');
+		while (getline(file, line))
+		{
+			stringstream iss(line);
+			getline(iss, temp, ',');
 			if (temp == "settings")
 			{
-				std::getline(iss, colorName, ',');
-				std::getline(iss, this->currentDrawingShape);
+				getline(iss, colorName, ',');
+				getline(iss, this->currentDrawingShape);
 
 				if (colorName == "Green")
-					this->currentDrawingColor = sf::Color::Green;					
+					this->currentDrawingColor = sf::Color::Green;
 				else if (colorName == "Blue")
 					this->currentDrawingColor = sf::Color::Blue;
 				else
@@ -153,7 +174,8 @@ public:
 			blueBtn.setFillColor(sf::Color::Blue);
 			greenBtn.setFillColor(sf::Color::Transparent);
 			redBtn.setFillColor(sf::Color::Transparent);
-		} else
+		}
+		else
 		{
 			blueBtn.setFillColor(sf::Color::Transparent);
 			greenBtn.setFillColor(sf::Color::Transparent);
@@ -161,7 +183,7 @@ public:
 		}
 
 		// Shape buttons
-		if (this->currentDrawingShape == "circle")
+		if (this->currentDrawingShape == "Circle")
 		{
 			circleBtn.setFillColor(sf::Color::Black);
 			squareBtn.setFillColor(sf::Color::Transparent);
@@ -173,4 +195,23 @@ public:
 		}
 	}
 
+	string returnShapeType()
+	{
+		return currentDrawingShape;
+	}
+
+	string returnColorType()
+	{
+		if (currentDrawingColor == sf::Color::Blue)
+			return "Blue";
+		else if (currentDrawingColor == sf::Color::Green)
+			return "Green";
+		else
+			return "Red";
+	}
+
+	sf::Color getDrawingColor()
+	{
+		return this->currentDrawingColor;
+	}
 };

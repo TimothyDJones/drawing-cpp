@@ -72,6 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\Tim\Documents\Visual Studio 2015\Projects\Lab9_Tasks\Drawing\SFML-2.4.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Tim\Documents\Visual Studio 2015\Projects\Lab9_Tasks\Drawing\SFML-2.4.1\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
